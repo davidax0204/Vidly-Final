@@ -11,6 +11,13 @@ namespace Vidly_Final.Controllers
     public class MoviesController : Controller
     {
         // GET: Movies
+
+        public ActionResult Index()
+        {
+            var movies = GetMovies();
+
+            return View(movies);
+        }
         public ActionResult Random()
         {
             var movie = new Movie()
@@ -31,6 +38,15 @@ namespace Vidly_Final.Controllers
             };
 
             return View(viewModel);
+        }
+
+        private List<Movie> GetMovies()
+        {
+            return new List<Movie>
+            {
+                new Movie { Id = 1, Name = "Shrek" },
+                new Movie { Id = 2, Name = "Wall-e" }
+            };
         }
     }
 }
