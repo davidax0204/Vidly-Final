@@ -27,30 +27,17 @@ namespace Vidly_Final.Controllers
         }
         public ActionResult Index()
         {
-            return View();
-        }
-        public ActionResult Random()
-        {
-            var movie = new Movie()
+            if (User.IsInRole(RoleName.CanManageMovies))
             {
-                Name = "Shrek!"
-            };
+                return View("List");
+            }
 
-            var customers = new List<Customer>
-            {
-                new Customer {Name = "Customer 1"},
-                new Customer {Name = "Customer 2"}
-            };
+            return View("ReadOnlyList");
 
-            var viewModel = new RandomMovieViewModel
-            {
-                Movie = movie,
-                Customers = customers
-            };
-
-            return View(viewModel);
         }
 
+
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ViewResult New()
         {
             var genres = _context.Genres.ToList();
@@ -119,6 +106,44 @@ namespace Vidly_Final.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Movies");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public ActionResult Random()
+        {
+            var movie = new Movie()
+            {
+                Name = "Shrek!"
+            };
+
+            var customers = new List<Customer>
+            {
+                new Customer {Name = "Customer 1"},
+                new Customer {Name = "Customer 2"}
+            };
+
+            var viewModel = new RandomMovieViewModel
+            {
+                Movie = movie,
+                Customers = customers
+            };
+
+            return View(viewModel);
         }
     }
 }
