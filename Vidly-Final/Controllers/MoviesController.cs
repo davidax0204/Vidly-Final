@@ -27,11 +27,7 @@ namespace Vidly_Final.Controllers
         }
         public ActionResult Index()
         {
-            var movies = _context.Movies.Include(m => m.Genre).ToList();
-
-            Debug.WriteLine(movies);
-
-            return View(movies);
+            return View();
         }
         public ActionResult Random()
         {
