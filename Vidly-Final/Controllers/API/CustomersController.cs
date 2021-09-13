@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Data.Entity;
 using AutoMapper;
 using Vidly_Final.Dtos;
 using Vidly_Final.Models;
@@ -23,7 +24,10 @@ namespace Vidly_Final.Controllers.API
         //GET /api/customers
         public IHttpActionResult GetCustomers()
         {
-            var customersDto = _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            var customersDto = _context.Customers
+                .Include(c=>c.MembershipType)
+                .ToList()
+                .Select(Mapper.Map<Customer, CustomerDto>);
 
             return Ok(customersDto);
         }
@@ -62,7 +66,6 @@ namespace Vidly_Final.Controllers.API
 
             return Created(new Uri(Request.RequestUri+ "/"+customer.Id),customerDto);
         }
-
 
 
         //PUT /api/customers/1
